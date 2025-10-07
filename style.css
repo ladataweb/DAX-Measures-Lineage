@@ -1,0 +1,310 @@
+:root {
+    --bg: #191919;
+    --bg-secondary: #232323;
+    --border: #333;
+    --text: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --accent: #ff9800;
+    --accent-hover: #ffa733;
+    --box: #232323;
+    --box-table: #353535;
+    --modal-bg: #232323ee;
+    --highlight: #ff9800;
+    --arrow: #888;
+    --arrow-table: #bbbbbb;
+    --arrow-measure: #bbbbbb;
+    --filter-blue: #2563eb;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', 'Liberation Sans', Arial, sans-serif;
+}
+
+header {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5em 1em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.branding {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+}
+
+.ladata-logo {
+    height: 60px;
+    width: auto;
+    margin-right: 0.3em;
+    display: block;
+    background: none;
+    border-radius: 6px;
+}
+
+header h1 {
+    font-size: 1.3em;
+    margin: 0;
+    color: var(--text);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.controls {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+}
+
+.controls button, .controls input[type="text"] {
+    background: var(--box);
+    color: var(--text);
+    border: 1.5px solid var(--border);
+    padding: 0.4em 0.9em;
+    border-radius: 5px;
+    font-size: 1em;
+    outline: none;
+    transition: background 0.15s, border 0.15s;
+}
+
+.controls button:hover {
+    background: var(--accent-hover);
+    color: #191919;
+    border-color: var(--accent);
+    cursor: pointer;
+}
+
+.controls button:active {
+    background: var(--accent);
+    color: #fff;
+}
+
+.filter-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 24px;
+  background: var(--box);
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  font-weight: bold;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  user-select: none;
+}
+.toggle-label {
+  padding: 0.32em 1.2em;
+  cursor: pointer;
+  color: var(--text-secondary);
+  background: none;
+  transition: background 0.17s, color 0.17s;
+}
+.toggle-label.selected {
+  background: var(--highlight);
+  color: #191919;
+}
+.toggle-divider {
+  width: 1.5px;
+  height: 1.6em;
+  background: var(--border);
+}
+
+.controls input[type="text"] {
+    width: 180px;
+    transition: border 0.15s;
+}
+.controls input[type="text"]:focus {
+    border-color: var(--highlight);
+}
+
+main {
+    flex: 1 1 auto;
+    display: flex;
+    height: calc(100vh - 110px);
+}
+
+#canvasContainer {
+    background: var(--bg);
+    width: 100vw;
+    height: 100%;
+    overflow: auto;
+    position: relative;
+    flex: 1 1 auto;
+}
+
+#diagramCanvas {
+    background: var(--bg);
+    display: block;
+    max-width: none;
+    max-height: none;
+    cursor: default;
+}
+
+.sidebar {
+    display: none;
+    position: fixed;
+    top: 56px;
+    right: 0;
+    width: 390px;
+    max-width: 98vw;
+    height: calc(100vh - 56px);
+    background: var(--bg-secondary);
+    border-left: 1.5px solid var(--border);
+    box-shadow: -2px 0 6px rgba(0,0,0,0.18);
+    z-index: 2000;
+    padding: 1.3em 1.2em 1.3em 1.2em;
+    color: var(--text);
+    overflow-y: auto;
+    transition: right 0.18s;
+}
+.sidebar.open {
+    display: block;
+    animation: slideIn 0.22s;
+}
+@keyframes slideIn {
+    from { right: -400px; }
+    to { right: 0; }
+}
+#sidebarTitle {
+    font-size: 1.15em;
+    margin-bottom: 0.6em;
+    margin-top: 0;
+    color: var(--accent);
+    font-weight: 600;
+}
+#sidebarBody {
+    white-space: pre-wrap;
+    background: var(--bg);
+    border-radius: 7px;
+    padding: 0.8em 1em;
+    margin-bottom: 0.7em;
+    color: var(--text);
+    font-size: 0.99em;
+    font-family: 'Fira Mono', 'Consolas', monospace;
+}
+#sidebarRefs {
+    margin-top: 1.1em;
+    font-size: 1em;
+    color: var(--text-secondary);
+}
+#sidebarRefs b {
+    color: var(--highlight);
+}
+.sidebar .close {
+    color: var(--text-secondary);
+    position: absolute;
+    top: 0.7em;
+    right: 1.15em;
+    font-size: 1.5em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 0.14s;
+}
+.sidebar .close:hover {
+    color: var(--highlight);
+}
+
+footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 0.5em;
+    color: var(--text-secondary);
+    font-size: 1.05em;
+    font-weight: 600;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0; top: 0; right: 0; bottom: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(25,25,25,0.7);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: var(--modal-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.3em 1.5em;
+    min-width: 340px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow: auto;
+    position: relative;
+    color: var(--text);
+}
+
+.close {
+    color: var(--text-secondary);
+    position: absolute;
+    top: 0.6em;
+    right: 1.1em;
+    font-size: 1.5em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 0.15s;
+    user-select: none;
+}
+
+.close:hover {
+    color: var(--highlight);
+}
+
+#pasteDialog textarea {
+    width: 100%;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 0.6em;
+    margin-bottom: 1em;
+    font-size: 1em;
+    resize: vertical;
+}
+
+#pasteConfirmBtn {
+    margin-top: 0.4em;
+    background: var(--accent);
+    color: #191919;
+    border: none;
+    padding: 0.5em 1.2em;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+#pasteConfirmBtn:hover {
+    background: var(--accent-hover);
+}
+
+.footer-contact {
+    color: var(--text-secondary);
+    font-weight: normal;
+}
+a {
+    color: var(--highlight);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+    .sidebar { width: 98vw; min-width: 90vw; }
+    .modal-content { min-width: 95vw; }
+    header { flex-direction: column; align-items: flex-start; }
+    .branding { margin-bottom: 0.4em; }
+    .controls { width: 100%; flex-wrap: wrap; }
+    main { height: calc(100vh - 140px); }
+}

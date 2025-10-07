@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DAX Measure Lineage Visualizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="branding">
+            <a href="https://www.ladataweb.com.ar"><img src="LaDataLogoGREY-darktheme.png" alt="LaDataWeb Logo" class="ladata-logo" /></a>
+            <h1>DAX Measure Lineage Visualizer</h1>
+        </div>
+        <div class="controls">
+            <input type="file" id="fileInput" accept=".json" style="display:none;">
+            <button id="uploadBtn" title="Upload JSON">Upload JSON</button>
+            <button id="pasteBtn" title="Paste JSON">Paste JSON</button>
+            <button id="helpBtn" title="Help or Setup">?</button>
+            <input type="text" id="searchInput" placeholder="Search measures…" autocomplete="off">
+            <div class="filter-mode-toggle">
+                <span id="filterHighlight" class="toggle-label selected">Highlight</span>
+                <span class="toggle-divider"></span>
+                <span id="filterIsolate" class="toggle-label">Isolate</span>
+            </div>
+            <button id="fitBtn" title="Fit to Content">Fit to Content</button>
+            <button id="exportBtn" title="Export as PNG">Export PNG</button>
+        </div>
+    </header>
+    <main>
+        <div id="canvasContainer">
+            <canvas id="diagramCanvas"></canvas>
+        </div>
+        <div id="sidebar" class="sidebar">
+            <button id="closeSidebar" class="close">&times;</button>
+            <h2 id="sidebarTitle"></h2>
+            <pre id="sidebarBody"></pre>
+            <div id="sidebarRefs"></div>
+        </div>
+        <div id="helpModal" class="modal">
+            <div class="modal-content">
+                <span id="closeHelpModal" class="close">&times;</span>
+                <h2>How to use this tool</h2>
+                <ol>
+                    <li>
+                        <b>Copy the DAX Query to get the JSON export from your model:</b>
+                        <pre style="background:#232323;color:#e0e0e0;padding:1em;white-space:pre-wrap;border-radius:5px;margin-top:0.8em;margin-bottom:0.8em;">
+EVALUATE 
+{ TOJSON(    
+    SELECTCOLUMNS(
+        FILTER(
+            INFO.CALCDEPENDENCY()
+            , [OBJECT_TYPE] = "MEASURE" && [REFERENCED_OBJECT_TYPE] &lt;&gt; "COLUMN"            
+        )
+        ,  "Measure", [OBJECT]
+        , "Expression", [EXPRESSION]
+        , "Referenced_Object_Type", [REFERENCED_OBJECT_TYPE]
+        , "Referenced_Object", [REFERENCED_OBJECT]
+    )
+, -1)}</pre>
+                        <ul>
+                            <li>Run this query in DAX Studio, Tabular Editor, or Power BI's DAX Query view.</li>
+                            <li>Copy the output JSON result.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Paste or upload the JSON here:</b>
+                        <ul>
+                            <li>Use <b>Paste JSON</b> or <b>Upload JSON</b> above.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Navigation:</b>
+                        <ul>
+                            <li>Pan: <b>Hold the middle mouse button</b> (wheel) and drag (like Figma).</li>
+                            <li>Zoom: <b>Scroll</b> with mouse wheel.</li>
+                            <li>Drag nodes: <b>Click and drag</b> any box to reposition it.</li>
+                            <li>Click a box: View DAX in the right sidebar; highlights dependencies.</li>
+                            <li>Hover: Highlights a box under the mouse pointer.</li>
+                            <li>Sidebar: Click outside any box to close.</li>                            
+                            <li>Filter: Type to highlight matches (case-insensitive, blue border).</li>
+                            <li>Filter Mode: <b>Highlight</b> highlights matches, <b>Isolate</b> shows only matches and their references.</li>
+                        </ul>
+                    </li>
+                </ol>
+                <b>Need help?</b> Contact us at <a href="mailto:ibarrau@ladataweb.com.ar">ibarrau@ladataweb.com.ar</a>
+            </div>
+        </div>
+    </main>
+    <div id="pasteDialog" class="modal">
+        <div class="modal-content">
+            <span id="closePasteDialog" class="close">&times;</span>
+            <h2>Paste JSON Export</h2>
+            <textarea id="pasteArea" rows="12" placeholder="Paste your JSON export here"></textarea>
+            <button id="pasteConfirmBtn">Load</button>
+        </div>
+    </div>
+    <footer>
+        <span>Powered by <a href="https://www.ladataweb.com.ar">LaDataWeb</a></span>
+        <span class="footer-contact"> | Contact: <a href="mailto:ibarrau@ladataweb.com.ar">ibarrau@ladataweb.com.ar</a></span>
+    </footer>
+    <script src="parser.js"></script>
+    <script src="diagram.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
