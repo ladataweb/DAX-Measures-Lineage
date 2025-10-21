@@ -5,6 +5,8 @@
     <title>DAX Measure Lineage Visualizer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <!-- Material Icons CDN for SVG icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -14,17 +16,17 @@
         </div>
         <div class="controls">
             <input type="file" id="fileInput" accept=".json" style="display:none;">
-            <button id="uploadBtn" title="Upload JSON">Upload JSON</button>
-            <button id="pasteBtn" title="Paste JSON">Paste JSON</button>
-            <button id="helpBtn" title="Help or Setup">?</button>
+            <button id="uploadBtn" title="Upload JSON"><span class="material-icons">upload</span></button>
+            <button id="pasteBtn" title="Paste JSON"><span class="material-icons">content_paste</span></button>
             <input type="text" id="searchInput" placeholder="Search measures…" autocomplete="off">
             <div class="filter-mode-toggle">
                 <span id="filterHighlight" class="toggle-label selected">Highlight</span>
                 <span class="toggle-divider"></span>
                 <span id="filterIsolate" class="toggle-label">Isolate</span>
             </div>
-            <button id="fitBtn" title="Fit to Content">Fit to Content</button>
-            <button id="exportBtn" title="Export as PNG">Export PNG</button>
+            <button id="fitBtn" title="Fit to Content"><span class="material-icons">fit_screen</span></button>
+            <button id="exportBtn" title="Export as PNG"><span class="material-icons">download</span></button>
+            <button id="helpBtn" title="Help"><span class="material-icons">help_outline</span></button>
         </div>
     </header>
     <main>
@@ -37,6 +39,7 @@
             <pre id="sidebarBody"></pre>
             <div id="sidebarRefs"></div>
         </div>
+
         <div id="helpModal" class="modal">
             <div class="modal-content">
                 <span id="closeHelpModal" class="close">&times;</span>
@@ -45,19 +48,19 @@
                     <li>
                         <b>Copy the DAX Query to get the JSON export from your model:</b>
                         <pre style="background:#232323;color:#e0e0e0;padding:1em;white-space:pre-wrap;border-radius:5px;margin-top:0.8em;margin-bottom:0.8em;">
-EVALUATE 
-{ TOJSON(    
-    SELECTCOLUMNS(
-        FILTER(
-            INFO.CALCDEPENDENCY()
-            , [OBJECT_TYPE] = "MEASURE" && [REFERENCED_OBJECT_TYPE] &lt;&gt; "COLUMN"            
-        )
-        ,  "Measure", [OBJECT]
-        , "Expression", [EXPRESSION]
-        , "Referenced_Object_Type", [REFERENCED_OBJECT_TYPE]
-        , "Referenced_Object", [REFERENCED_OBJECT]
-    )
-, -1)}</pre>
+        EVALUATE 
+        { TOJSON(    
+            SELECTCOLUMNS(
+                FILTER(
+                    INFO.CALCDEPENDENCY()
+                    , [OBJECT_TYPE] = "MEASURE" && [REFERENCED_OBJECT_TYPE] &lt;&gt; "COLUMN"            
+                )
+                ,  "Measure", [OBJECT]
+                , "Expression", [EXPRESSION]
+                , "Referenced_Object_Type", [REFERENCED_OBJECT_TYPE]
+                , "Referenced_Object", [REFERENCED_OBJECT]
+            )
+        , -1)}</pre>
                         <ul>
                             <li>Run this query in DAX Studio, Tabular Editor, or Power BI's DAX Query view.</li>
                             <li>Copy the output JSON result.</li>
@@ -66,7 +69,15 @@ EVALUATE
                     <li>
                         <b>Paste or upload the JSON here:</b>
                         <ul>
-                            <li>Use <b>Paste JSON</b> or <b>Upload JSON</b> above.</li>
+                            <li>
+                                Use
+                                <button class="help-icon" title="Paste JSON"><span class="material-icons">content_paste</span></button>
+                                <b>Paste JSON</b>
+                                or
+                                <button class="help-icon" title="Upload JSON"><span class="material-icons">upload</span></button>
+                                <b>Upload JSON</b>
+                                above.
+                            </li>
                         </ul>
                     </li>
                     <li>
@@ -80,6 +91,18 @@ EVALUATE
                             <li>Sidebar: Click outside any box to close.</li>                            
                             <li>Filter: Type to highlight matches (case-insensitive, blue border).</li>
                             <li>Filter Mode: <b>Highlight</b> highlights matches, <b>Isolate</b> shows only matches and their references.</li>
+                            <li>
+                                <button class="help-icon" title="Fit to Content"><span class="material-icons">fit_screen</span></button>
+                                <b>Fit to Content</b> centers and zooms the diagram.
+                            </li>
+                            <li>
+                                <button class="help-icon" title="Export as PNG"><span class="material-icons">download</span></button>
+                                <b>Export PNG</b> saves the diagram as an image.
+                            </li>
+                            <li>
+                                <button class="help-icon" title="Help"><span class="material-icons">help_outline</span></button>
+                                <b>Help</b> shows these instructions.
+                            </li>
                         </ul>
                     </li>
                 </ol>

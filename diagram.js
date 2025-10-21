@@ -199,6 +199,15 @@ function hitTestNode(mouse, nodePos) {
     return null;
 }
 
+function exportCanvasToPng(canvas, filename) {
+    const link = document.createElement('a');
+    link.download = filename || 'diagram.png';
+    link.href = canvas.toDataURL('image/png');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 window.Diagram = {
     layoutNodes,
     drawDiagram,
@@ -206,5 +215,6 @@ window.Diagram = {
     NODE_WIDTH,
     NODE_HEIGHT,
     TABLE_WIDTH,
-    TABLE_HEIGHT
+    TABLE_HEIGHT,
+    exportCanvasToPng
 };

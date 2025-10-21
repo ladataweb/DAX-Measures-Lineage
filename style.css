@@ -61,68 +61,104 @@ header h1 {
 
 .controls {
     display: flex;
-    gap: 0.5em;
+    gap: 0.3em;
     align-items: center;
+    flex-wrap: wrap;
 }
 
-.controls button, .controls input[type="text"] {
-    background: var(--box);
-    color: var(--text);
-    border: 1.5px solid var(--border);
-    padding: 0.4em 0.9em;
-    border-radius: 5px;
-    font-size: 1em;
+.controls button {
+    background: none;
+    border: none;
     outline: none;
-    transition: background 0.15s, border 0.15s;
+    color: var(--accent);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    transition: background 0.14s, color 0.14s;
+    position: relative;
 }
 
 .controls button:hover {
     background: var(--accent-hover);
     color: #191919;
-    border-color: var(--accent);
     cursor: pointer;
 }
-
-.controls button:active {
-    background: var(--accent);
-    color: #fff;
-}
-
-.filter-mode-toggle {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 24px;
-  background: var(--box);
-  border: 1.5px solid var(--border);
-  overflow: hidden;
-  font-weight: bold;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  user-select: none;
-}
-.toggle-label {
-  padding: 0.32em 1.2em;
-  cursor: pointer;
-  color: var(--text-secondary);
-  background: none;
-  transition: background 0.17s, color 0.17s;
-}
-.toggle-label.selected {
-  background: var(--highlight);
-  color: #191919;
-}
-.toggle-divider {
-  width: 1.5px;
-  height: 1.6em;
-  background: var(--border);
+.controls button .material-icons {
+    font-size: 1.4em;
+    vertical-align: middle;
+    pointer-events: none;
 }
 
 .controls input[type="text"] {
-    width: 180px;
+    background: var(--box);
+    color: var(--text);
+    border: 1.5px solid var(--border);
+    padding: 0.38em 0.95em;
+    border-radius: 5px;
+    font-size: 1em;
+    outline: none;
     transition: border 0.15s;
+    width: 190px;
+    min-width: 110px;
+    max-width: 300px;
+    margin-left: 0.2em;
+    margin-right: 0.2em;
 }
 .controls input[type="text"]:focus {
     border-color: var(--highlight);
+}
+
+.help-icon {
+    display: inline-block;
+    background: var(--box);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin: 0 2px;
+    vertical-align: middle;
+    cursor: default;
+}
+.help-icon .material-icons {
+    font-size: 1.1em;
+    vertical-align: middle;
+    color: var(--accent);
+    pointer-events: none;
+}
+.help-icon:focus {
+    outline: none;
+}
+
+.filter-mode-toggle {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 24px;
+    background: var(--box);
+    border: 1.5px solid var(--border);
+    overflow: hidden;
+    font-weight: bold;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    user-select: none;
+}
+.toggle-label {
+    padding: 0.32em 1.2em;
+    cursor: pointer;
+    color: var(--text-secondary);
+    background: none;
+    transition: background 0.17s, color 0.17s;
+}
+.toggle-label.selected {
+    background: var(--highlight);
+    color: #191919;
+}
+.toggle-divider {
+    width: 1.5px;
+    height: 1.6em;
+    background: var(--border);
 }
 
 main {
@@ -300,11 +336,39 @@ a:hover {
     text-decoration: underline;
 }
 
+@media (max-width: 1000px) {
+    .controls {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 0.3em 0.7em;
+    }
+    .controls input[type="text"] {
+        min-width: 100px;
+    }
+}
+
 @media (max-width: 700px) {
-    .sidebar { width: 98vw; min-width: 90vw; }
-    .modal-content { min-width: 95vw; }
-    header { flex-direction: column; align-items: flex-start; }
-    .branding { margin-bottom: 0.4em; }
-    .controls { width: 100%; flex-wrap: wrap; }
-    main { height: calc(100vh - 140px); }
+    header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .branding {
+        margin-bottom: 0.7em;
+        justify-content: center;
+    }
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.4em;
+    }
+    .controls button,
+    .controls input[type="text"],
+    .filter-mode-toggle {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        margin-bottom: 0;
+        padding: 0.3em 0.6em;
+        font-size: 1em;
+    }
 }
