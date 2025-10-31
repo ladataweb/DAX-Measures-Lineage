@@ -152,8 +152,8 @@ header h1 {
     transition: background 0.17s, color 0.17s;
 }
 .toggle-label.selected {
-    background: var(--highlight);
-    color: #191919;
+    background: #0F9ED5;
+    color: #FFF;
 }
 .toggle-divider {
     width: 1.5px;
