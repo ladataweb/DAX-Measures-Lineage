@@ -1,5 +1,15 @@
 // main.js: fast isolate mode via filtered subgraph, highlight/isolate toggle, fit to content, precomputed dependents
 
+window.onload = () => {
+    const params = new URLSearchParams(window.location.search);
+    const copy = params.get("copy");
+    if (copy) {
+		pasteDialog.style.display = "flex";
+		pasteArea.value = "";
+	}
+}
+
+
 let measures = [], tables = [], edges = [], nameMap = {}, nodePos = {};
 let selectedNode = null, referencedNodes = new Set(), filterText = "";
 let hoveredNode = null;
