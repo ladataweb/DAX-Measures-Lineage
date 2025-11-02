@@ -4,8 +4,7 @@ window.onload = () => {
     const params = new URLSearchParams(window.location.search);
     const copy = params.get("copy");
     if (copy) {
-		pasteDialog.style.display = "flex";
-		pasteArea.value = "";
+		startDialog.style.display = "flex";
 	}
 }
 
@@ -30,6 +29,7 @@ const exportBtn = document.getElementById("exportBtn");
 const uploadBtn = document.getElementById("uploadBtn");
 const fileInput = document.getElementById("fileInput");
 const pasteBtn = document.getElementById("pasteBtn");
+const startBtn = document.getElementById("startConfirmBtn");
 const sidebar = document.getElementById("sidebar");
 const sidebarTitle = document.getElementById("sidebarTitle");
 const sidebarBody = document.getElementById("sidebarBody");
@@ -38,6 +38,8 @@ const closeSidebar = document.getElementById("closeSidebar");
 const helpBtn = document.getElementById("helpBtn");
 const helpModal = document.getElementById("helpModal");
 const closeHelpModal = document.getElementById("closeHelpModal");
+const startDialog = document.getElementById("startDialog");
+const closeStartDialog = document.getElementById("closeStartDialog");
 const pasteDialog = document.getElementById("pasteDialog");
 const pasteArea = document.getElementById("pasteArea");
 const closePasteDialog = document.getElementById("closePasteDialog");
@@ -113,7 +115,7 @@ function loadMeasuresFromJson(json) {
         fitToContent();
         requestRedraw();
     } catch (e) {
-        alert("Failed to parse JSON: " + e.message);
+        alert("Failed to parse JSON: " + e.message +".\nIf this was trigger from Power Bi Desktop, Go to help and follow the instructions to start the lineage.");
     }
 }
 
@@ -179,6 +181,23 @@ pasteConfirmBtn.onclick = () => {
     loadMeasuresFromJson(txt);
     pasteDialog.style.display = "none";
 };
+
+startBtn.onclick = () => {
+    let clipboardText = "";
+    navigator.clipboard.readText().then(text => {
+        clipboardText = text.trim();
+        if (clipboardText) {
+            loadMeasuresFromJson(clipboardText);
+            startDialog.style.display = "none";
+        } else {
+            alert("There was an error reading the model automatically. Please follow the instructions at help to run it manually.");
+        }
+    }).catch(err => {
+        alert("Failed to read clipboard: " + err);
+    });
+};
+
+closeStartDialog.onclick = () => { startDialog.style.display = "none";};
 
 searchInput.oninput = e => {
     filterText = e.target.value;
