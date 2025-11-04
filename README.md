@@ -8,6 +8,8 @@
 
 This project is a web app that you can run in any browser. This tool can also be added as a Power Bi External tool installed manually or with an exe file.
 
+You can run this from Power Bi Desktop installing the External tool (download from release section) or just open the web and follow the instructions.
+
 ---
 
 ## Features
@@ -64,7 +66,7 @@ This project is a web app that you can run in any browser. This tool can also be
 
 ## Power Bi External Tool
 
-If you use want to use it as a Power Bi external tool, the click at Power Bi Desktop will open the web at a browser and copy de json to the clipboard to just paste (Ctrl+V) and start using.
+If you use want to use it as a Power Bi external tool, the click at our icon in Power Bi Desktop. It will open the web at a browser with a Start button. After clicking it, the browser requests access to the clipboard in order to get the result of dependencies automaticall.
 
 ---
 
