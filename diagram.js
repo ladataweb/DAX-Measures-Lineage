@@ -107,13 +107,22 @@ function drawMeasureNode(ctx, x, y, name, selected = false, referenced = false, 
     ctx.beginPath();
     ctx.shadowColor = SHADOW;
     ctx.shadowBlur = dragging ? 20 : selected ? 18 : referenced ? 12 : hovered ? 12 : matchesFilter ? 11 : 6;
+
+    // Prioridad: seleccionado > referenced > hovered > matchesFilter > borde normal
     ctx.strokeStyle = dragging ? "#38bdf8"
-                     : selected ? BOX_SELECTED
-                     : matchesFilter ? FILTER_HIGHLIGHT
-                     : referenced ? REF_HIGHLIGHT
-                     : hovered ? HOVER_HIGHLIGHT : BOX_BORDER;
+        : selected ? BOX_SELECTED
+        : referenced ? REF_HIGHLIGHT
+        : hovered ? HOVER_HIGHLIGHT
+        : matchesFilter ? FILTER_HIGHLIGHT
+        : BOX_BORDER;
+
     ctx.fillStyle = BOX_COLOR;
-    ctx.lineWidth = dragging ? 4 : selected ? 3 : matchesFilter ? 3 : referenced ? 2.5 : hovered ? 2.5 : 2;
+    ctx.lineWidth = dragging ? 4
+        : selected ? 3
+        : referenced ? 2.5
+        : hovered ? 2.5
+        : matchesFilter ? 2
+        : 2;
     ctx.roundRect(x, y, NODE_WIDTH, NODE_HEIGHT, 11);
     ctx.fill();
     ctx.stroke();
@@ -131,13 +140,22 @@ function drawTableNode(ctx, x, y, name, selected = false, referenced = false, ho
     ctx.beginPath();
     ctx.shadowColor = SHADOW;
     ctx.shadowBlur = dragging ? 20 : selected ? 18 : referenced ? 12 : hovered ? 12 : matchesFilter ? 11 : 8;
+
+    // Prioridad: seleccionado > referenced > hovered > matchesFilter > borde normal
     ctx.strokeStyle = dragging ? "#38bdf8"
-                     : selected ? BOX_SELECTED
-                     : matchesFilter ? FILTER_HIGHLIGHT
-                     : referenced ? REF_HIGHLIGHT
-                     : hovered ? HOVER_HIGHLIGHT : TABLE_BORDER;
+        : selected ? BOX_SELECTED
+        : referenced ? REF_HIGHLIGHT
+        : hovered ? HOVER_HIGHLIGHT
+        : matchesFilter ? FILTER_HIGHLIGHT
+        : TABLE_BORDER;
+
     ctx.fillStyle = TABLE_BOX_COLOR;
-    ctx.lineWidth = dragging ? 4 : selected ? 4 : matchesFilter ? 3.5 : referenced ? 3 : hovered ? 3 : 2.5;
+    ctx.lineWidth = dragging ? 4
+        : selected ? 4
+        : referenced ? 3
+        : hovered ? 3
+        : matchesFilter ? 2.5
+        : 2.5;
     ctx.roundRect(x, y, TABLE_WIDTH, TABLE_HEIGHT, 15);
     ctx.fill();
     ctx.stroke();

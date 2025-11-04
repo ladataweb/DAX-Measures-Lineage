@@ -112,7 +112,7 @@ function loadMeasuresFromJson(json) {
             }
         }
         closeSidebarFn();
-        fitToContent();
+        fitToTopLeft();
         requestRedraw();
     } catch (e) {
         alert("Failed to parse JSON: " + e.message +".\nIf this was trigger from Power Bi Desktop, Go to help and follow the instructions to start the lineage.");
@@ -276,7 +276,7 @@ function closeSidebarFn() {
     sidebar.classList.remove("open");
 }
 
-fitBtn.onclick = fitToContent;
+fitBtn.onclick = fitToTopLeft;
 function fitToContent() {
     // Support subgraph for isolate mode
     let useFiltered = (filterMode === "isolate" && filterSet && filterSet.size > 0);
@@ -294,6 +294,25 @@ function fitToContent() {
     zoom = Math.max(0.3, Math.min(newZoom, 2.5));
     pan.x = (containerW - (ext.maxX + ext.minX) * zoom) / 2;
     pan.y = (containerH - (ext.maxY + ext.minY) * zoom) / 2;
+    requestRedraw();
+}
+
+function fitToTopLeft() {
+    let nodePosToFit = Diagram.layoutNodes(measures, tables, customNodePos);
+    let ext = getExtents(nodePosToFit);
+    let pad = 60; // Un poco más de padding
+    // Calcula zoom máximo para que todo el contenido entre en pantalla
+    let containerW = container.clientWidth, containerH = container.clientHeight;
+    let contentW = ext.maxX - ext.minX + pad * 2;
+    let contentH = ext.maxY - ext.minY + pad * 2;
+    let zoomW = containerW / contentW;
+    let zoomH = containerH / contentH;
+    let optimalZoom = Math.min(zoomW, zoomH, 1.25); // Zoom máximo configurable aquí
+    zoom = Math.max(0.3, Math.min(optimalZoom, 1.25)); // Rango configurado aquí
+
+    // Siempre "empezamos" en la esquina superior izquierda
+    pan.x = pad - ext.minX * zoom;
+    pan.y = pad - ext.minY * zoom;
     requestRedraw();
 }
 
@@ -446,16 +465,24 @@ canvas.onmouseleave = () => {
 };
 
 canvas.onwheel = evt => {
-    let mx = evt.offsetX, my = evt.offsetY;
-    let oldZoom = zoom;
-    let delta = evt.deltaY < 0 ? 1.08 : 0.93;
-    let newZoom = Math.max(0.35, Math.min(2.5, zoom * delta));
-    if (Math.abs(newZoom - zoom) < 0.01) return;
-    let wx = (mx - pan.x) / zoom, wy = (my - pan.y) / zoom;
-    pan.x = mx - wx * newZoom;
-    pan.y = my - wy * newZoom;
-    zoom = newZoom;
-    requestRedraw();
+    if (evt.ctrlKey) {
+        // Zoom
+        let mx = evt.offsetX, my = evt.offsetY;
+        let oldZoom = zoom;
+        let delta = evt.deltaY < 0 ? 1.08 : 0.93;
+        let newZoom = Math.max(0.35, Math.min(2.5, zoom * delta));
+        if (Math.abs(newZoom - zoom) < 0.01) return;
+        let wx = (mx - pan.x) / zoom, wy = (my - pan.y) / zoom;
+        pan.x = mx - wx * newZoom;
+        pan.y = my - wy * newZoom;
+        zoom = newZoom;
+        requestRedraw();
+    } else {
+        // Pan con dos dedos en touchpad
+        pan.x -= evt.deltaX;
+        pan.y -= evt.deltaY;
+        requestRedraw();
+    }
     evt.preventDefault();
 };
 
