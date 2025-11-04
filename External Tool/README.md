@@ -2,6 +2,14 @@
 
 DAX Measures Lineager can be installed as a Power Bi External Tool. You can download the exe file from the releases or the manual zip for extracting the files your self.
 
+## Exe Installer
+
+The DAX-Measures-Lineager.exe installer it's just a client that moves the external tool files in specific folders automatically. Windows would probably show the following issue:
+
+![LaDataWeb Logo](smartscreen-popup.png)
+
+That means we don't pay for a software digital signature license for windows to recognize at the installer. This is a community development. You can trust it and click Run anyway. If you don't go ahead with the manual installation you can read next.
+
 ## Manual Installation
 
 1. Download and extract the compressed file from releases.
