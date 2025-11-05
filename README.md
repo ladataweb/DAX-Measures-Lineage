@@ -1,6 +1,6 @@
 # DAX Measure Lineage Visualizer
 
-[![GitHub Release](https://img.shields.io/github/v/release/ladataweb/SimplePBI-Ops)](https://github.com/ladataweb/DAX-Measures-Lineage/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/ladataweb/DAX-Measures-Lineage)](https://github.com/ladataweb/DAX-Measures-Lineage/releases)
 
 ![LaDataWeb Logo](daxlineage.png)
 
